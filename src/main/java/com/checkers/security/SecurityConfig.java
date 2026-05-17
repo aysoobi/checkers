@@ -65,7 +65,9 @@ public class SecurityConfig {
                         "/app.js",
                         "/auth.js",
                         "/error",
-                        "/h2-console/**")
+                        "/h2-console/**",
+                        "/actuator/health",
+                        "/actuator/health/**")
                     .permitAll()
                     .requestMatchers("/api/**")
                     .authenticated()
