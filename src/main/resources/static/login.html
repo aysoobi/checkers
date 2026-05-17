@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход — Русские шашки</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/auth.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <h1>Русские шашки</h1>
+    <p class="auth-sub">Войдите, чтобы играть и сохранять историю</p>
+    <div id="error" class="auth-error" hidden></div>
+    <form id="loginForm">
+      <label class="field">
+        <span>Логин</span>
+        <input name="username" type="text" required autocomplete="username" />
+      </label>
+      <label class="field">
+        <span>Пароль</span>
+        <input name="password" type="password" required autocomplete="current-password" />
+      </label>
+      <button class="btn btn-primary auth-submit" type="submit">Войти</button>
+    </form>
+    <p class="auth-link">Нет аккаунта? <a href="/register.html">Регистрация</a></p>
+  </div>
+  <script src="/auth.js"></script>
+  <script>
+    const errorEl = document.getElementById("error");
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      const fd = new FormData(e.target);
+      try {
+        await apiAuth("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify({
+            username: fd.get("username"),
+            password: fd.get("password"),
+          }),
+        });
+        location.href = "/index.html";
+      } catch (err) {
+        showAuthError(errorEl, err);
+      }
+    });
+    apiAuth("/api/auth/me").then(() => (location.href = "/index.html")).catch(() => {});
+  </script>
+</body>
+</html>

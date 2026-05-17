@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Регистрация — Checkers</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/auth.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <h1>Регистрация</h1>
+    <p class="auth-sub">Создайте аккаунт — история и статистика сохранятся в базе</p>
+    <div id="error" class="auth-error" hidden></div>
+    <form id="registerForm">
+      <label class="field">
+        <span>Логин</span>
+        <input name="username" type="text" required minlength="3" autocomplete="username" />
+      </label>
+      <label class="field">
+        <span>Пароль</span>
+        <input name="password" type="password" required minlength="6" autocomplete="new-password" />
+      </label>
+      <label class="field">
+        <span>Город (необязательно)</span>
+        <input name="city" type="text" autocomplete="address-level2" />
+      </label>
+      <button class="btn btn-primary auth-submit" type="submit">Зарегистрироваться</button>
+    </form>
+    <p class="auth-link">Уже есть аккаунт? <a href="/login.html">Войти</a></p>
+  </div>
+  <script src="/auth.js"></script>
+  <script>
+    const errorEl = document.getElementById("error");
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      const fd = new FormData(e.target);
+      try {
+        await apiAuth("/api/auth/register", {
+          method: "POST",
+          body: JSON.stringify({
+            username: fd.get("username"),
+            password: fd.get("password"),
+            city: fd.get("city") || null,
+          }),
+        });
+        location.href = "/index.html";
+      } catch (err) {
+        showAuthError(errorEl, err);
+      }
+    });
+  </script>
+</body>
+</html>

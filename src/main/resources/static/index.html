@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Русские шашки — Checkers</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="toast" class="toast" hidden>
+    <span id="toastIcon" class="toast-icon" aria-hidden="true">⚠️</span>
+    <span id="toastMsg" class="toast-msg"></span>
+    <button type="button" id="toastClose" class="toast-close" aria-label="Закрыть">×</button>
+  </div>
+
+  <div class="app">
+    <header class="header">
+      <div>
+        <h1>Русские шашки</h1>
+        <p class="tagline">Игрок: <strong id="playerName">…</strong></p>
+      </div>
+      <div class="stats-bar" id="statsBar">
+        <span class="stat win" title="Победы">🏆 <span id="statWins">0</span></span>
+        <span class="stat lose" title="Поражения">💔 <span id="statLosses">0</span></span>
+        <span class="stat draw" title="Ничьи">🤝 <span id="statDraws">0</span></span>
+      </div>
+      <div class="header-actions">
+        <button id="themeBtn" class="btn btn-ghost" type="button" title="Светлая / тёмная тема">◐ Тема</button>
+        <button id="logoutBtn" class="btn btn-ghost" type="button">Выйти</button>
+      </div>
+    </header>
+
+    <aside class="panel sidebar">
+      <label class="field">
+        <span>Режим игры</span>
+        <select id="mode">
+          <option value="vsAI">Против компьютера</option>
+          <option value="twoPlayer">Два игрока</option>
+        </select>
+      </label>
+
+      <label class="field" id="difficultyWrap">
+        <span>Сложность</span>
+        <select id="difficulty">
+          <option value="EASY">Начинающий</option>
+          <option value="MEDIUM" selected>Любитель</option>
+          <option value="HARD">Мастер</option>
+        </select>
+      </label>
+
+      <div class="btn-row">
+        <button id="newGameBtn" class="btn btn-primary" type="button">Новая партия</button>
+        <button id="hintsBtn" class="btn btn-secondary" type="button">Подсказка</button>
+      </div>
+
+      <div id="status" class="status">Нажмите «Новая партия»</div>
+
+      <section class="history-block">
+        <h2>История партий</h2>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </aside>
+
+    <main class="board-wrap">
+      <p class="board-title">Ваша партия</p>
+      <div class="board-frame">
+        <div id="board" class="board" role="grid" aria-label="Доска 8 на 8"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
