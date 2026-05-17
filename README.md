@@ -37,6 +37,23 @@ docker compose up -d
 ./gradlew bootRun --args='--spring.profiles.active=prod'
 ```
 
+### Деплой на Railway
+
+1. Создайте проект на [railway.app](https://railway.app) из репозитория GitHub.
+2. Добавьте плагин **PostgreSQL** и привяжите его к сервису приложения (переменные `PGHOST`, `PGPORT`, … подставятся автоматически).
+3. Railway соберёт образ по `Dockerfile` (профиль `prod` включён в образе).
+4. Переменная `PORT` задаётся Railway сама — менять не нужно.
+
+Локальная проверка образа:
+
+```bash
+docker build -t checkers:latest .
+docker run --rm -p 8080:8080 \
+  -e PGHOST=host.docker.internal -e PGPORT=5432 \
+  -e PGUSER=postgres -e PGPASSWORD=postgres -e PGDATABASE=checkers \
+  checkers:latest
+```
+
 ## Сохранение данных
 
 | Данные | Где |
