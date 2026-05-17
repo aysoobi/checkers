@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
-/**
- * Railway injects DATABASE_URL (postgresql://user:pass@host:port/db).
- * PG* variables are used when DATABASE_URL is absent.
- */
+
 @Configuration
 @Profile("prod")
 public class RailwayDatabaseConfig {
