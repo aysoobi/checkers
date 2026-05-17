@@ -1,23 +1,20 @@
-# --- build ---
-FROM eclipse-temurin:17-jdk-alpine AS build
+# --- build (Debian-based: стабильнее для Gradle на Railway) ---
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /app
 
 COPY gradlew settings.gradle build.gradle ./
 COPY gradle gradle
 RUN chmod +x gradlew
 
-# cache dependencies
-RUN ./gradlew dependencies --no-daemon -q || true
-
 COPY src src
-RUN ./gradlew bootJar -x test --no-daemon -q
+RUN ./gradlew bootJar -x test --no-daemon
 
 # --- run ---
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-RUN addgroup -S app && adduser -S app -G app
-USER app:app
+RUN groupadd -r app && useradd -r -g app app
+USER app
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
